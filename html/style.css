@@ -1,0 +1,66 @@
+body {
+  background-color: #EBEBEB;
+  font-family: Arial;
+}
+
+main, header {
+  margin: 20px 30%;
+}
+
+#tweet_content {
+  width: 100%;
+  height: 30px;
+  font-size: 18px;
+}
+
+#tweet_name {
+  width: 40%;
+  height: 30px;
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+button {
+  float: right;
+  margin: 10px 0;
+  padding: 8px;
+  background-color: #306add;
+  color: #FFF;
+}
+
+.tweet {
+  margin: 10px 0;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.username {
+  font-style: italic;
+}
+
+.delete {
+  color: blue;
+}
+
+.delete:hover {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 800px) {
+  main, header {
+    margin: 20px 14%;
+  }
+}
+
+@media screen and (max-width: 460px) {
+  main, header {
+    margin: 20px;
+  }
+
+  #tweet_name {
+    width: 70%;
+  }
+}
