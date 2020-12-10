@@ -1,4 +1,10 @@
 # bootcamp-simple-twitter
+
+<p align="center">
+  <img width="400" alt="ideal product" src="https://user-images.githubusercontent.com/18134219/101709717-9e748680-3a55-11eb-8bc3-28a8dfa38ff1.png">
+  <p align="center"><em>the ideal product</em></p>
+</p>
+
 we _all_ know how to call APIs, manipulate the DOM, and setup our own endpoints on a server,
 but how do we store data in a ~ persistent ~ manner? well, we will want to turn to databases!
 (specifically [MongoDB](https://www.mongodb.com/), hosted by [Atlas](https://www.mongodb.com/cloud/atlas))
