@@ -1,5 +1,5 @@
 {
-  "name": "simple twitter",
+  "name": "simple-twitter",
   "version": "0.9.0",
   "description": "a bootcamp exercise for connecting MongoDB to Node",
   "main": "app.js",
