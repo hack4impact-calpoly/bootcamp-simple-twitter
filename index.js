@@ -1,11 +1,11 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 require('dotenv').config();
 
-const app = express();
+const tweetRoutes = require('./routes');
 
-const Tweet = require('./models/tweet');
+const app = express();
 
 mongoose.connect(process.env.DATABASE_URL, {
   useNewUrlParser: true,
@@ -16,47 +16,7 @@ mongoose.connect(process.env.DATABASE_URL, {
 
 app.use(express.static('html'));
 app.use(bodyParser.json());
-
-const getTweets = async () => {
-  console.warn('TODO: get all tweets');
-};
-
-const getUserTweets = async (username) => {
-  console.warn('TODO: get all tweets from a specific user');
-};
-
-const createTweet = async (username, text) => {
-  console.warn('TODO: create a tweet with a given username and text');
-};
-
-const deleteTweet = async (id) => {
-  console.warn('TODO: delete a single tweet, given the id');
-};
-
-/*
- * Tweet endpoints
- */
-app.get('/api/tweet', async (req, res) => {
-  const { username } = req.query;
-
-  let tweets;
-  if (username === undefined) tweets = await getTweets();
-  else tweets = await getUserTweets(username);
-
-  res.status(200).json(tweets);
-});
-
-app.post('/api/tweet', async (req, res) => {
-  const { text, username } = req.body;
-  const tweet = await createTweet(username, text);
-  res.status(201).json(tweet);
-});
-
-app.post('/api/tweet/delete', async (req, res) => {
-  const { id } = req.body;
-  await deleteTweet(id);
-  res.status(204).send();
-});
+app.use('/api/tweet', tweetRoutes);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Running at http://localhost:${port}`));
