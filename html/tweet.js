@@ -1,5 +1,4 @@
-// TODO, update with actual HREF
-const URL = 'http://localhost:3000/api/tweet';
+const URL = `${document.location.origin}/api/tweet`;
 
 const createTweet = (tweet) => {
   const tweets = document.getElementById('tweets');
@@ -30,18 +29,30 @@ const createTweet = (tweet) => {
   tweets.insertBefore(tweetBox, tweets.childNodes[0]);
 };
 
+const post = async (path, body) => (
+  fetch(URL + path, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  })
+);
+
 const getTweets = async () => {
   const query = new URLSearchParams(window.location.search);
-  let username;
-  if (query.get('username') !== null) username = `?username=${query.get('username')}`;
-  else username = '';
+  const username = query.get('username')
+    ? `?username=${query.get('username')}` : '';
 
   fetch(URL + username)
-    .then((response) => response.json())
-    .then((data) => data.forEach((tweet) => createTweet(tweet)));
+    .then((response) => {
+      if (response.status !== 200) throw new Error();
+      return response.json();
+    })
+    .then((data) => data.forEach((tweet) => createTweet(tweet)))
+    .catch(() => console.warn('Unable to get tweets'));
 };
-
-getTweets();
 
 const postTweet = async () => {
   const data = {
@@ -49,32 +60,30 @@ const postTweet = async () => {
     text: document.getElementById('tweet_content').value,
   };
 
-  fetch('http://localhost:3000/api/tweet', {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  }).then((response) => response.json())
-    .then((tweet) => createTweet(tweet));
+  post('/', data)
+    .then((response) => {
+      if (response.status !== 201) throw new Error();
+      return response.json();
+    })
+    .then((tweet) => createTweet(tweet))
+    .catch(() => console.warn('Unable to post tweet'));
 };
 
 const deleteTweet = async (id) => {
-  fetch('http://localhost:3000/api/tweet/delete', {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ id }),
-  }).then(() => document.getElementById(id).remove());
+  post('/delete', { id })
+    .then((response) => {
+      if (response.status !== 204) throw new Error();
+    })
+    .then(() => document.getElementById(id).remove())
+    .catch(() => console.warn('Unable to delete tweet'));
 };
+
+window.onload = () => getTweets();
 
 document.addEventListener('click', (event) => {
   if (event.target.id === 'tweet') postTweet();
   if (event.target.className === 'delete') {
-    const { id } = event.target.parentNode.parentNode;
-    deleteTweet(id);
+    // TODO: find id better
+    deleteTweet(event.target.parentNode.parentNode.id);
   }
 });

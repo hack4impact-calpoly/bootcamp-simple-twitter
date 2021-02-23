@@ -43,20 +43,19 @@ app.get('/api/tweet', async (req, res) => {
   if (username === undefined) tweets = await getTweets();
   else tweets = await getUserTweets(username);
 
-  res.json(tweets);
+  res.status(200).json(tweets);
 });
 
 app.post('/api/tweet', async (req, res) => {
   const { text, username } = req.body;
-
   const tweet = await createTweet(username, text);
-  res.json(tweet);
+  res.status(201).json(tweet);
 });
 
 app.post('/api/tweet/delete', async (req, res) => {
   const { id } = req.body;
   await deleteTweet(id);
-  res.send();
+  res.status(204).send();
 });
 
 const port = process.env.PORT || 3000;
