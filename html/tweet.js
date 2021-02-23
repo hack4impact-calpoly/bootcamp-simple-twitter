@@ -1,11 +1,13 @@
-import { getTweets, postTweet, deleteTweet } from './api.mjs';
+import {
+  getTweetsFromServer, postTweetToServer, deleteTweetFromServer,
+} from './api.mjs';
 
-window.onload = () => getTweets();
+window.onload = () => getTweetsFromServer();
 
 document.addEventListener('click', (event) => {
-  if (event.target.id === 'tweet') postTweet();
+  if (event.target.id === 'tweet') postTweetToServer();
   if (event.target.className === 'delete') {
     // TODO: find id better
-    deleteTweet(event.target.parentNode.parentNode.id);
+    deleteTweetFromServer(event.target.parentNode.parentNode.id);
   }
 });

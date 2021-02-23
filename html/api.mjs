@@ -1,4 +1,4 @@
-import createTweet from './draw.mjs';
+import createTweetDOM from './draw.mjs';
 
 const URL = `${document.location.origin}/api/tweet`;
 
@@ -13,7 +13,7 @@ const post = async (path, body) => (
   })
 );
 
-const getTweets = async () => {
+const getTweetsFromServer = async () => {
   const query = new URLSearchParams(window.location.search);
   const username = query.get('username')
     ? `?username=${query.get('username')}` : '';
@@ -23,11 +23,11 @@ const getTweets = async () => {
       if (response.status !== 200) throw new Error();
       return response.json();
     })
-    .then((data) => data.forEach((tweet) => createTweet(tweet)))
+    .then((data) => data.forEach((tweet) => createTweetDOM(tweet)))
     .catch(() => console.warn('Unable to get tweets'));
 };
 
-const postTweet = async () => {
+const postTweetToServer = async () => {
   const data = {
     username: document.getElementById('tweet_name').value,
     text: document.getElementById('tweet_content').value,
@@ -38,11 +38,11 @@ const postTweet = async () => {
       if (response.status !== 201) throw new Error();
       return response.json();
     })
-    .then((tweet) => createTweet(tweet))
+    .then((tweet) => createTweetDOM(tweet))
     .catch(() => console.warn('Unable to post tweet'));
 };
 
-const deleteTweet = async (id) => {
+const deleteTweetFromServer = async (id) => {
   post('/delete', { id })
     .then((response) => {
       if (response.status !== 204) throw new Error();
@@ -51,4 +51,4 @@ const deleteTweet = async (id) => {
     .catch(() => console.warn('Unable to delete tweet'));
 };
 
-export { getTweets, postTweet, deleteTweet };
+export { getTweetsFromServer, postTweetToServer, deleteTweetFromServer };

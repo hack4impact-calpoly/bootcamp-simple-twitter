@@ -1,4 +1,4 @@
-const createTweet = (tweet) => {
+const createTweetDOM = (tweet) => {
   const tweets = document.getElementById('tweets');
 
   const tweetBox = document.createElement('div');
@@ -27,4 +27,4 @@ const createTweet = (tweet) => {
   tweets.insertBefore(tweetBox, tweets.childNodes[0]);
 };
 
-export default createTweet;
+export default createTweetDOM;
