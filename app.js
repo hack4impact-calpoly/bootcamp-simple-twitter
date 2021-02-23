@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config();
@@ -13,7 +14,7 @@ mongoose.connect(process.env.DATABASE_URL, {
   useCreateIndex: true,
 }).then(() => console.log('Connected to MongoDB'));
 
-app.use(express.static('html'));
+app.use(express.static(path.join(__dirname, 'html')));
 app.use(express.json());
 app.use('/api/tweet', tweetRoutes);
 
